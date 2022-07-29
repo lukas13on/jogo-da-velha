@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+
+html,body{
+    font-family: 'Titillium Web', sans-serif;
+    margin:0px;
+    padding:0px;
+}
+
+.jogo{
+    position: absolute;
+    top: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.controles{
+    display: inline-block;;
+    max-width: 300px;
+}
+
+.controles .botao, .recomecar .botao{
+    width:100px;
+    height:100px;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center center;;
+}
+
+.botao.xis{
+    background-image:url("../assets/icons/xis.png");
+}
+
+.botao.circulo{
+    background-image:url("../assets/icons/circulo.png");
+}
+
+.estatisticas{
+    background: #000000;
+    color: #fff;
+    padding: 10px;
+    margin-bottom:50px;
+    margin-bottom:50px;
+}
+
+.estatisticas .jogando::before{
+    content: "Jogando agora";
+    display:block;
+    font-size: 24px;
+}
+.estatisticas .jogando{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recomecar .botao{
+    border-radius: 50%;;
+    margin-top:100px;
+    background-image:url("../assets/icons/recomecar.png");
+}
+
