@@ -11,7 +11,6 @@ function Jogo() {
 }
 
 Jogo.prototype.iniciar = function () {
-    console.log("iniciar");
     var elem = document.querySelector(".jogo");
     if (elem) {
         elem.remove();
@@ -114,9 +113,7 @@ Jogo.prototype.controles = function () {
                         nv = 2;
                         break;
                 }
-                //jogo.tabuleiro.alterar(x, y, nv);
                 jogo.tabuleiro.alterar(botao, { x: x, y: y, v: nv });
-                //console.log("cliquei", x, y, nv);
             });
             controles.appendChild(controle);
         }
@@ -231,11 +228,9 @@ Tabuleiro.prototype.reiniciar = function () {
 };
 
 Tabuleiro.prototype.alterar = function (botao, args) {
-    //console.log(args);
     this.posicoes[args.x][args.y] = args.v;
     botao.setAttribute("data-v", args.v);
     var classe = this.pai.estado.jogador === 2 ? "circulo" : "xis";
-    console.log(classe);
     switch (args.v) {
         case 1:
             botao.classList.add(classe);
@@ -259,7 +254,6 @@ Tabuleiro.prototype.tamanho = function () {
 
 function Estado() {
     var iniciante = NumeroAleatorio(1, 3);
-    console.log(iniciante);
     this.terminado = false;
     this.ganhador = false;
     this.comeca = iniciante;
@@ -293,15 +287,12 @@ Estado.prototype.finalizado = function () {
 };
 
 Estado.prototype.proximo = function () {
-    console.log("proxi8mo");
     var terminado = this.finalizado();
-    console.log("terminado:",terminado)
     if (!terminado) {
         this.jogador = this.jogador === 1 ? 2 : 1;
         this.pai.atualizar();
     }
     var that = this;
-    console.log("aqui:",that.jogador);
     return this;
 };
 
@@ -400,29 +391,18 @@ function Telemetria(pos) {
             (pos[0][2] === jogador && pos[1][1] === jogador && pos[2][0] === jogador),
         ];
 
-        console.log(esperados);
         var padraoLocalizado = false;
-        //var padrao = false;
         for (var i = 0; i < esperados.length; i++) {
             if (esperados[i]) {
                 padraoLocalizado = padroes[i];
-                //return true;
             }
         }
 
-        console.log("localizado", padraoLocalizado);
-        // if(){}
-        //console.log(padroes[padraoLocalizado]);
-
         var localizar = function (padrao) {
             var partes = [];
-            console.log('localizando...');
-            console.log(padrao);
             for (var i = 0; i < padrao.length; i++) {
                 partes.push('[data-x="' + padrao[i][0] + '"][data-y="' + padrao[i][1] + '"]');
             }
-            console.log(partes);
-
 
             partes.forEach(function (parte) {
                 var elem = document.querySelector(parte);
@@ -431,8 +411,6 @@ function Telemetria(pos) {
 
 
         };
-
-        console.log(localizar(padraoLocalizado));
 
         return padraoLocalizado !== false ? true : false;
     };
@@ -452,7 +430,6 @@ function Telemetria(pos) {
                     }
                 }
             }
-            console.log(counter, jogo.tabuleiro.tamanho(), pos);
             if (counter === jogo.tabuleiro.tamanho()) {
                 return true;
             } else {
@@ -480,4 +457,3 @@ function NumeroAleatorio(min, max) {
 }
 
 var jogo = new Jogo();
-console.log(jogo);
