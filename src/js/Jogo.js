@@ -96,7 +96,7 @@ Jogo.prototype.controles = function () {
                 if (jogo.estado.terminado) {
                     var confirmar = confirm("O jogo acabou, deseja reiniciar?");
                     if (confirmar) {
-                        this.pai.reiniciar();
+                        jogo.reiniciar();
                     }
                     return;
                 }
@@ -409,14 +409,12 @@ function Telemetria(pos) {
                 elem.classList.add("sucesso");
             });
 
-
         };
+
+        localizar(padraoLocalizado);
 
         return padraoLocalizado !== false ? true : false;
     };
-
-    console.dir(coletar(pos, 1));
-    console.dir(coletar(pos, 2));
 
     ganhou = (coletar(pos, 1) || coletar(pos, 2));
 
