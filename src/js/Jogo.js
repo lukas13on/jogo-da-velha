@@ -21,10 +21,27 @@ Jogo.prototype.iniciar = function () {
     var estatisticas = this.estatisticas();
     var controles = this.controles();
     var recomecar = this.recomecar();
+    var rodape = this.rodape();
     elem.appendChild(estatisticas);
     elem.appendChild(controles);
     elem.appendChild(recomecar);
+    elem.appendChild(rodape);
+    this.atualizar();
     document.body.appendChild(elem);
+};
+
+Jogo.prototype.rodape = function () {
+    var rodape = document.createElement("div");
+    rodape.classList.add("rodape");
+    var jogadorUm = document.createElement("div");
+    jogadorUm.classList.add("jogador");
+    jogadorUm.classList.add("jogador-um");
+    var jogadorDois = document.createElement("div");
+    jogadorDois.classList.add("jogador");
+    jogadorDois.classList.add("jogador-dois");
+    rodape.appendChild(jogadorUm);
+    rodape.appendChild(jogadorDois);
+    return rodape;
 };
 
 Jogo.prototype.estatisticas = function () {
@@ -32,7 +49,7 @@ Jogo.prototype.estatisticas = function () {
     estatisticas.classList.add("estatisticas");
     var jogando = document.createElement("DIV");
     jogando.classList.add("jogando");
-    var jogandoAgora = this.estado.jogador === 0 ? "1" : "2";
+    var jogandoAgora = this.estado.jogador === 1 ? "1" : "2";
     jogando.setAttribute("id", "jogando");
     jogando.textContent = "Jogador " + jogandoAgora;
     estatisticas.appendChild(jogando);
@@ -57,7 +74,7 @@ Jogo.prototype.recomecar = function () {
 Jogo.prototype.atualizar = function () {
     var estatisticas = document.querySelector(".estatisticas");
     if (estatisticas) {
-        var jogandoAgora = this.estado.jogador === 0 ? "1" : "2";
+        var jogandoAgora = this.estado.jogador === 1 ? "1" : "2";
         var jogando = document.getElementById("jogando");
         jogando.textContent = "Jogador " + jogandoAgora;
     }
@@ -83,10 +100,10 @@ Jogo.prototype.controles = function () {
                 var botao = this;
                 var x = Number(this.getAttribute("data-x"));
                 var y = Number(this.getAttribute("data-y"));
-                var v = Number(this.getAttribute("data-v"));
                 var jogador = jogo.estado.jogador;
+                var nv;
                 switch (jogador) {
-                    case 0:
+                    case 2:
                         nv = 1;
                         break;
                     case 1:
@@ -104,7 +121,6 @@ Jogo.prototype.controles = function () {
 };
 
 Jogo.prototype.reiniciar = function () {
-    this.jogadores = new Jogadores(2);
     this.tabuleiro = new Tabuleiro(3, 3);
     this.estado = new Estado();
     this.tabuleiro.pai = this;
@@ -214,7 +230,8 @@ Tabuleiro.prototype.alterar = function (botao, args) {
     //console.log(args);
     this.posicoes[args.x][args.y] = args.v;
     botao.setAttribute("data-v", args.v);
-    var classe = this.pai.estado.jogador === 0 ? "circulo" : "xis";
+    var classe = this.pai.estado.jogador === 2 ? "circulo" : "xis";
+    console.log(classe);
     switch (args.v) {
         case 1:
             botao.classList.add(classe);
@@ -237,13 +254,16 @@ Tabuleiro.prototype.tamanho = function () {
 /** Estado */
 
 function Estado() {
+    var iniciante = NumeroAleatorio(1, 3);
+    console.log(iniciante);
     this.terminado = false;
     this.ganhador = false;
-    this.jogador = NumeroAleatorio(0, 2);
+    this.comeca = iniciante;
+    this.jogador = iniciante;
     return this;
 }
 
-Estado.prototype.checagem = function () {
+Estado.prototype.finalizado = function () {
     var telemetria = Telemetria(this.pai.tabuleiro.posicoes);
     var ganhou = telemetria.ganhou;
     var velha = telemetria.velha;
@@ -259,17 +279,25 @@ Estado.prototype.checagem = function () {
         alert("Velha");
     }
 
-    return true;
+    if (velha || ganhou) {
+        return true;
+    } else {
+        return false;
+    }
+
 
 };
 
 Estado.prototype.proximo = function () {
     console.log("proxi8mo");
-    var checado = this.checagem();
-    if (checado) {
-        this.jogador = this.jogador === 0 ? 1 : 0;
+    var terminado = this.finalizado();
+    console.log("terminado:",terminado)
+    if (!terminado) {
+        this.jogador = this.jogador === 1 ? 2 : 1;
         this.pai.atualizar();
     }
+    var that = this;
+    console.log("aqui:",that.jogador);
     return this;
 };
 

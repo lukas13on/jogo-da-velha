@@ -60,3 +60,65 @@ html,body{
 .botao.sucesso{
     background-color: greenyellow;
 }
+
+.rodape {
+    position: fixed;
+    bottom: 0;
+    padding: 10px 0;
+    left: 0;
+    width: 100%;
+    background-color: #ddd;
+    border-top: 1px solid #000;
+    box-sizing: border-box;
+    height: 50px;
+}
+
+.jogador.jogador-um {
+    float: right;
+}
+
+.jogador {}
+
+.jogador:after{
+    background-position: center center;
+    background-size:50%;
+    background-repeat: no-repeat;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.jogador.jogador-um:before {
+    position:
+        absolute;
+    left: 60px;
+    content: "Jogador 1";
+}
+
+.jogador.jogador-um:after {
+    content: "";
+    position: absolute;
+    left: 0px;
+    width: 50px;
+    height: 50px;
+    background-image: url("../assets/icons/xis.png");
+}
+
+.jogador.jogador-dois:after {
+    content: "";
+    position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    background-image: url("../assets/icons/circulo.png");
+}
+
+.jogador.jogador-dois:before {
+    position:
+        absolute;
+    right: 60px;
+    content: "Jogador 2";
+}
+
+.jogador.jogador-dois {
+    float: left;
+}
