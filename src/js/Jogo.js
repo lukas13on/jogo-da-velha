@@ -95,6 +95,10 @@ Jogo.prototype.controles = function () {
             controle.addEventListener("click", function (e) {
                 e.preventDefault();
                 if (jogo.estado.terminado) {
+                    var confirmar = confirm("O jogo acabou, deseja reiniciar?");
+                    if (confirmar) {
+                        this.pai.reiniciar();
+                    }
                     return;
                 }
                 var botao = this;
